@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Числові вирази</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#EEF1F7;
+    --surface:#FFFFFF;
+    --surface-soft:#F5F7FB;
+    --ink:#1B2333;
+    --ink-soft:#4E5972;
+    --line:#D7DCE8;
+    --accent:#2C4A8C;
+    --accent-soft:#E4EAF8;
+    --accent-strong:#17264C;
+    --warn:#B5641A;
+    --warn-soft:#FBEEE0;
+    --good:#1F7A5C;
+    --good-soft:#E4F3EC;
+    --shadow: 0 1px 2px rgba(27,35,51,.04), 0 8px 24px -12px rgba(27,35,51,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11141E;
+      --surface:#1A1F2E;
+      --surface-soft:#20263A;
+      --ink:#E7EAF3;
+      --ink-soft:#A7AFC6;
+      --line:#313A55;
+      --accent:#8FADF2;
+      --accent-soft:#233257;
+      --accent-strong:#C7D6FA;
+      --warn:#E3A15B;
+      --warn-soft:#3A2C19;
+      --good:#6FCBA6;
+      --good-soft:#173229;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11141E;
+    --surface:#1A1F2E;
+    --surface-soft:#20263A;
+    --ink:#E7EAF3;
+    --ink-soft:#A7AFC6;
+    --line:#313A55;
+    --accent:#8FADF2;
+    --accent-soft:#233257;
+    --accent-strong:#C7D6FA;
+    --warn:#E3A15B;
+    --warn-soft:#3A2C19;
+    --good:#6FCBA6;
+    --good-soft:#173229;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);}
+  img{max-width:100%;}
+
+  .wrap{max-width:760px; margin:0 auto; padding:40px 24px 96px;}
+
+  h1,h2,h3{font-family:'Bitter',Georgia,serif; text-wrap:balance; color:var(--ink); margin:0;}
+  h1{font-size:2.4rem; font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:1.5rem; font-weight:700; margin-bottom:.15em;}
+  h3{font-size:1.15rem; font-weight:600;}
+  p{margin:0 0 1em; max-width:66ch;}
+  .lede{font-size:1.08rem; color:var(--ink-soft); max-width:60ch;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:.6em;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); font-weight:500; margin-bottom:1em;
+  }
+  .eyebrow .dot{width:5px; height:5px; border-radius:50%; background:var(--ink-soft); opacity:.5;}
+
+  header.lesson{
+    padding-bottom:28px; border-bottom:1px solid var(--line); margin-bottom:36px;
+  }
+
+  nav.toc{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:32px 0; box-shadow:var(--shadow);
+  }
+  nav.toc h3{font-family:'Manrope',sans-serif; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:.8em;}
+  nav.toc ol{margin:0; padding-left:1.25em; columns:2; column-gap:24px;}
+  nav.toc li{margin-bottom:.45em; break-inside:avoid;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.94rem; border-bottom:1px solid transparent;}
+  nav.toc a:hover, nav.toc a:focus-visible{color:var(--accent); border-bottom-color:var(--accent);}
+
+  section{margin:52px 0;}
+  section > .num{
+    font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:.85rem;
+    font-weight:600; margin-bottom:.3em; display:block;
+  }
+
+  .box{
+    border-radius:14px; padding:20px 24px; margin:22px 0;
+    border:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .box h4{margin:0 0 .5em; font-family:'Manrope',sans-serif; font-size:.92rem; font-weight:800; letter-spacing:.01em;}
+  .box p:last-child{margin-bottom:0;}
+  .box.remember{background:var(--accent-soft); border-color:transparent;}
+  .box.remember h4{color:var(--accent-strong);}
+  .box.warn{background:var(--warn-soft); border-color:transparent;}
+  .box.warn h4{color:var(--warn); display:flex; align-items:center; gap:.5em;}
+  .box.example{background:var(--surface);}
+  .box.example h4{color:var(--ink-soft); text-transform:uppercase; font-size:.75rem; letter-spacing:.07em;}
+  .box.aside{background:var(--surface-soft); border-style:dashed;}
+  .box.aside h4{color:var(--ink-soft);}
+
+  .expr{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums;}
+
+  table.rules{
+    width:100%; border-collapse:collapse; margin:20px 0;
+    background:var(--surface); border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid var(--line);
+  }
+  table.rules th, table.rules td{
+    text-align:left; padding:13px 18px; border-bottom:1px solid var(--line); font-size:.96rem;
+  }
+  table.rules th{
+    background:var(--surface-soft); font-family:'Manrope',sans-serif;
+    font-weight:700; font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);
+  }
+  table.rules tr:last-child td{border-bottom:none;}
+  table.rules td strong{color:var(--accent);}
+
+  .solve{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; margin:18px 0; box-shadow:var(--shadow);
+  }
+  .solve ol{margin:0; padding-left:1.3em;}
+  .solve li{margin-bottom:.5em; font-family:'JetBrains Mono',monospace; font-size:.98rem;}
+  .solve li::marker{color:var(--ink-soft); font-family:'Manrope',sans-serif;}
+
+  .diagram-wrap{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:20px; margin:24px 0; box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .diagram-wrap figcaption{
+    font-size:.82rem; color:var(--ink-soft); text-align:center; margin-top:10px;
+  }
+  svg{display:block; margin:0 auto;}
+
+  .practice-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:20px 0;
+  }
+  .practice-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .practice-card .expr{font-size:1.05rem; display:block; margin-bottom:10px; color:var(--ink);}
+  details{margin-top:6px;}
+  details summary{
+    cursor:pointer; font-size:.82rem; color:var(--accent); font-weight:600;
+    list-style:none; display:inline-flex; align-items:center; gap:.35em;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:"▸"; font-size:.7rem; transition:transform .15s ease;}
+  details[open] summary::before{transform:rotate(90deg);}
+  details .answer{
+    margin-top:8px; padding:10px 12px; background:var(--good-soft); border-radius:8px;
+    font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--good);
+  }
+
+  ol.quiz{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px;}
+  ol.quiz > li{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 20px; box-shadow:var(--shadow); counter-increment:q;
+  }
+  ol.quiz{counter-reset:q;}
+  ol.quiz > li .qhead{display:flex; gap:.6em; font-weight:600; margin-bottom:.6em;}
+  ol.quiz > li .qhead::before{
+    content:counter(q); font-family:'JetBrains Mono',monospace; color:var(--accent);
+    background:var(--accent-soft); width:1.6em; height:1.6em; border-radius:6px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0;
+  }
+  ol.quiz ul{margin:0; padding-left:0; list-style:none; display:grid; gap:6px;}
+  ol.quiz ul li{
+    padding:8px 12px; border:1px solid var(--line); border-radius:8px; font-size:.94rem;
+    background:var(--surface-soft);
+  }
+
+  .variants{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin:20px 0;}
+  .variant{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px; box-shadow:var(--shadow);
+  }
+  .variant h4{
+    font-family:'Bitter',serif; font-size:1.1rem; margin:0 0 .9em;
+    padding-bottom:.5em; border-bottom:2px solid var(--accent-soft); color:var(--accent-strong);
+  }
+  .variant ol{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:10px;}
+  .variant li{font-size:.92rem;}
+  .variant .expr{display:block; margin-top:2px;}
+
+  footer.end{
+    margin-top:64px; padding-top:20px; border-top:1px solid var(--line);
+    color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+
+  @media (max-width:520px){
+    h1{font-size:1.9rem;}
+    nav.toc ol{columns:1;}
+    .box, .solve{padding:16px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="lesson">
+    <div class="eyebrow">Алгебра <span class="dot"></span> 7 клас <span class="dot"></span> Розділ 2, § 1</div>
+    <h1>Числові вирази</h1>
+    <p class="lede">Що таке числовий вираз, коли він має значення, і в якому порядку виконувати дії — з поясненнями, схемами та прикладами за підручником Тарасенкової (2024), с. 12–16.</p>
+  </header>
+
+  <nav class="toc" aria-label="Зміст лекції">
+    <h3>Зміст</h3>
+    <ol>
+      <li><a href="#intro">Навіщо потрібні числові вирази</a></li>
+      <li><a href="#def">Означення числового виразу</a></li>
+      <li><a href="#value">Значення виразу. Ділення на нуль</a></li>
+      <li><a href="#order">Порядок виконання дій</a></li>
+      <li><a href="#solved">Розібрані приклади</a></li>
+      <li><a href="#practice">Приклади для закріплення</a></li>
+      <li><a href="#quiz">Тест самоперевірки</a></li>
+      <li><a href="#work">Самостійна робота</a></li>
+    </ol>
+  </nav>
+
+  <section id="intro">
+    <span class="num">01</span>
+    <h2>Навіщо потрібні числові вирази</h2>
+    <p>Марина і Сергій готувалися до школи й купували зошити: Марина взяла 20 зошитів у лінійку по 4&nbsp;грн і 10 зошитів у клітинку по 5&nbsp;грн; Сергій — 15 зошитів у лінійку по 7&nbsp;грн і 17 у клітинку по 9&nbsp;грн. Щоб дізнатися, скільки витратив кожен, достатньо не рахувати вручну, а <em>записати обчислення одним рядком</em>:</p>
+    <div class="solve">
+      <p style="margin-bottom:.4em; color:var(--ink-soft); font-size:.85rem;">Марина:</p>
+      <p class="expr" style="font-size:1.05rem; margin-bottom:1em;">4 · 20 + 5 · 10 = 80 + 50 = 130 (грн)</p>
+      <p style="margin-bottom:.4em; color:var(--ink-soft); font-size:.85rem;">Сергій:</p>
+      <p class="expr" style="font-size:1.05rem; margin-bottom:0;">7 · 15 + 9 · 17 = 105 + 153 = 258 (грн)</p>
+    </div>
+    <p>Такий запис — це і є <strong>числовий вираз</strong>: він одразу показує, які дії й у якому порядку виконати, щоб отримати відповідь.</p>
+  </section>
+
+  <section id="def">
+    <span class="num">02</span>
+    <h2>Означення числового виразу</h2>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Числовий вираз</strong> — це запис, у якому використовують числа, знаки арифметичних дій і дужки для позначення того, які дії і в якій послідовності треба виконати з числами.</p>
+    </div>
+    <p>Наприклад, числовими виразами є записи <span class="expr">24 + 2</span>, <span class="expr">24 − 2</span>, <span class="expr">24 · 2</span>, <span class="expr">24 : 2</span>, <span class="expr">24²</span>. А запис <span class="expr">15 + 5) − ((</span> числовим виразом <em>не є</em> — він не має змісту як послідовність дій, дужки в ньому не узгоджені.</p>
+    <p>Легкий спосіб перевірити запис: якщо в ньому є літера (змінна) — це вже не числовий, а <strong>вираз зі змінною</strong>; якщо в ньому стоїть знак «=» — це рівність, а не вираз.</p>
+  </section>
+
+  <section id="value">
+    <span class="num">03</span>
+    <h2>Значення виразу. Коли він не має змісту</h2>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p>Якщо виконати всі арифметичні дії в числовому виразі, то одержимо число, яке є <em>значенням числового виразу</em>.</p>
+    </div>
+    <p>Але значення можна знайти не завжди. Наприклад, у виразі <span class="expr">34 · 5 + 27 : (3 · 5 − 15)</span> дужки дають нуль: <span class="expr">3 · 5 − 15 = 0</span>. А ділити на нуль не можна — отже, вираз <em>не має значення</em> (не має змісту).</p>
+    <div class="box warn">
+      <h4>⚠ Важливо</h4>
+      <p>На нуль ділити не можна. Якщо хоча б одна дія у виразі зводиться до ділення на нуль — весь вираз не має змісту, навіть якщо решта записана правильно.</p>
+    </div>
+  </section>
+
+  <section id="order">
+    <span class="num">04</span>
+    <h2>Порядок виконання дій</h2>
+    <p>У підручнику порядок дій сформульовано через дужки та «ступені дій». Розгорнемо це трохи детальніше, ніж у книжці, — так правило простіше запам'ятати назавжди.</p>
+
+    <div class="box remember">
+      <h4>Три ступені арифметичних дій</h4>
+      <p><strong>I ступінь</strong> — додавання та віднімання.<br>
+      <strong>II ступінь</strong> — множення та ділення.<br>
+      <strong>III ступінь (найвищий)</strong> — піднесення до степеня.</p>
+    </div>
+
+    <table class="rules">
+      <thead><tr><th>Якщо вираз містить</th><th>То дії виконують</th></tr></thead>
+      <tbody>
+        <tr><td>дужки</td><td>спочатку <strong>в дужках</strong> (від внутрішніх до зовнішніх)</td></tr>
+        <tr><td>піднесення до степеня</td><td>одразу після дужок, <strong>перед</strong> множенням і діленням</td></tr>
+        <tr><td>дії одного ступеня</td><td>у тому порядку, у якому вони записані — зліва направо</td></tr>
+        <tr><td>дії різних ступенів</td><td>спочатку дії <strong>старшого</strong> ступеня</td></tr>
+      </tbody>
+    </table>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 300" width="100%" style="max-width:600px; min-width:420px" role="img" aria-labelledby="diagA-title diagA-desc">
+        <title id="diagA-title">Порядок виконання дій — чотири кроки за пріоритетом</title>
+        <desc id="diagA-desc">Крок 1: дужки. Крок 2: степінь. Крок 3: множення і ділення. Крок 4: додавання і віднімання.</desc>
+
+        <line x1="60" y1="55" x2="60" y2="255" stroke="var(--line)" stroke-width="2" />
+
+        <g font-family="Manrope, sans-serif">
+          <!-- step 1 -->
+          <circle cx="60" cy="55" r="16" fill="var(--accent)" />
+          <text x="60" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="var(--surface)">1</text>
+          <rect x="96" y="30" width="500" height="50" rx="10" fill="var(--accent-soft)" />
+          <text x="116" y="60" font-size="16" font-weight="700" fill="var(--accent-strong)">Дужки</text>
+          <text x="230" y="60" font-size="13" fill="var(--ink-soft)">— обчислюють першими, зсередини назовні</text>
+
+          <!-- step 2 -->
+          <circle cx="60" cy="121" r="16" fill="var(--warn)" />
+          <text x="60" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="var(--surface)">2</text>
+          <rect x="96" y="96" width="500" height="50" rx="10" fill="var(--warn-soft)" />
+          <text x="116" y="126" font-size="16" font-weight="700" fill="var(--warn)">Степінь</text>
+          <text x="250" y="126" font-size="13" fill="var(--ink-soft)">— піднесення до степеня (III ступінь)</text>
+
+          <!-- step 3 -->
+          <circle cx="60" cy="187" r="16" fill="var(--good)" />
+          <text x="60" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="var(--surface)">3</text>
+          <rect x="96" y="162" width="500" height="50" rx="10" fill="var(--good-soft)" />
+          <text x="116" y="192" font-size="16" font-weight="700" fill="var(--good)">Множення і ділення</text>
+          <text x="365" y="192" font-size="13" fill="var(--ink-soft)">— зліва направо (II ступінь)</text>
+
+          <!-- step 4 -->
+          <circle cx="60" cy="253" r="16" fill="var(--ink-soft)" />
+          <text x="60" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="var(--surface)">4</text>
+          <rect x="96" y="228" width="500" height="50" rx="10" fill="var(--surface-soft)" />
+          <text x="116" y="258" font-size="16" font-weight="700" fill="var(--ink)">Додавання і віднімання</text>
+          <text x="395" y="258" font-size="13" fill="var(--ink-soft)">— зліва направо (I ступінь)</text>
+        </g>
+      </svg>
+      <figcaption>Мал. А. Пріоритет дій у числовому виразі — від найвищого до найнижчого ступеня.</figcaption>
+    </figure>
+  </section>
+
+  <section id="solved">
+    <span class="num">05</span>
+    <h2>Розібрані приклади (Задача 1 з підручника)</h2>
+    <p>Знайдемо значення трьох виразів, застосовуючи щойно сформульований порядок дій.</p>
+
+    <div class="solve">
+      <p style="color:var(--ink-soft); font-size:.85rem; margin-bottom:.5em;">1) Дії одного ступеня — зліва направо</p>
+      <ol>
+        <li><span class="expr">13,2 − 0,7 + 19,3 = 12,5 + 19,3 = 31,8</span></li>
+      </ol>
+    </div>
+    <div class="solve">
+      <p style="color:var(--ink-soft); font-size:.85rem; margin-bottom:.5em;">2) Дії різних ступенів — спочатку множення й ділення</p>
+      <ol>
+        <li><span class="expr">34 : 17 − 12,5 · 4 = 2 − 50 = −48</span></li>
+      </ol>
+    </div>
+    <div class="solve">
+      <p style="color:var(--ink-soft); font-size:.85rem; margin-bottom:.5em;">3) Дужки, потім степінь, потім віднімання</p>
+      <ol>
+        <li><span class="expr">38 − (6 − 4,5)² = 38 − (1,5)² = 38 − 2,25 = 35,75</span></li>
+      </ol>
+    </div>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 720 190" width="100%" style="max-width:700px; min-width:620px" role="img" aria-labelledby="diagB-title diagB-desc">
+        <title id="diagB-title">Покроковий розбір виразу 38 мінус дужка 6 мінус 4,5 дужка в квадраті</title>
+        <desc id="diagB-desc">Крок 1: обчислити дужки, 6−4,5=1,5. Крок 2: піднести до степеня, 1,5²=2,25. Крок 3: відняти, 38−2,25=35,75.</desc>
+        <g font-family="JetBrains Mono, monospace" font-size="16">
+          <rect x="4" y="55" width="150" height="60" rx="10" fill="var(--surface-soft)" stroke="var(--line)"/>
+          <text x="79" y="80" text-anchor="middle" fill="var(--ink)">38 − (6−4,5)²</text>
+          <text x="79" y="100" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--ink-soft)">початковий вираз</text>
+
+          <path d="M158 85 L200 85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="179" y="72" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--accent)">дужки</text>
+
+          <rect x="204" y="55" width="130" height="60" rx="10" fill="var(--accent-soft)" stroke="var(--line)"/>
+          <text x="269" y="80" text-anchor="middle" fill="var(--accent-strong)">38 − 1,5²</text>
+          <text x="269" y="100" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--ink-soft)">крок 1</text>
+
+          <path d="M338 85 L380 85" stroke="var(--warn)" stroke-width="2" marker-end="url(#arrow2)"/>
+          <text x="359" y="72" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--warn)">степінь</text>
+
+          <rect x="384" y="55" width="130" height="60" rx="10" fill="var(--warn-soft)" stroke="var(--line)"/>
+          <text x="449" y="80" text-anchor="middle" fill="var(--warn)">38 − 2,25</text>
+          <text x="449" y="100" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--ink-soft)">крок 2</text>
+
+          <path d="M518 85 L560 85" stroke="var(--good)" stroke-width="2" marker-end="url(#arrow3)"/>
+          <text x="539" y="72" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--good)">−</text>
+
+          <rect x="564" y="55" width="150" height="60" rx="10" fill="var(--good-soft)" stroke="var(--line)"/>
+          <text x="639" y="80" text-anchor="middle" fill="var(--good)" font-weight="700">= 35,75</text>
+          <text x="639" y="100" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" fill="var(--ink-soft)">результат</text>
+        </g>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/></marker>
+          <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--warn)"/></marker>
+          <marker id="arrow3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--good)"/></marker>
+        </defs>
+      </svg>
+      <figcaption>Мал. Б. Той самий вираз, розібраний по кроках — видно, яка дія «зникає» на кожному етапі.</figcaption>
+    </figure>
+
+    <div class="box aside">
+      <h4>Цікаво знати</h4>
+      <p>Слово «алгебра» походить від арабського <em>аль-джабр</em> («поновлення», «відновлення») і вперше зустрічається у творі математика <strong>Аль-Хорезмі</strong> (IX ст.), присвяченому розв'язуванню рівнянь. Значний внесок у розвиток сучасної алгебри зробила німецька вчена <strong>Емілі Амалі Нетер</strong> (1882–1935).</p>
+    </div>
+  </section>
+
+  <section id="practice">
+    <span class="num">06</span>
+    <h2>Приклади для закріплення</h2>
+    <p>Обчисліть самостійно, а тоді відкрийте відповідь і перевірте себе.</p>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <span class="expr">5 · 2 + 18 : 3</span>
+        <details><summary>Відповідь</summary><div class="answer">10 + 6 = 16</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">(12 − 8)² − 3 · 5</span>
+        <details><summary>Відповідь</summary><div class="answer">16 − 15 = 1</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">100 : (2 + 3)² − 1</span>
+        <details><summary>Відповідь</summary><div class="answer">100 : 25 − 1 = 3</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">7,2 + 1,8 · (5 − 2)</span>
+        <details><summary>Відповідь</summary><div class="answer">7,2 + 5,4 = 12,6</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">2,5 · 4 − 18 : (9 − 3)</span>
+        <details><summary>Відповідь</summary><div class="answer">10 − 3 = 7</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">15 : (7 − 7) + 3</span>
+        <details><summary>Відповідь</summary><div class="answer">не має змісту — ділення на 0</div></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <span class="num">07</span>
+    <h2>Тест самоперевірки</h2>
+    <p>Оберіть правильну відповідь подумки, а тоді відкрийте ключ у кінці розділу.</p>
+    <ol class="quiz">
+      <li><div class="qhead">Який із записів є числовим виразом?</div>
+        <ul><li>а) 6x + 4</li><li>б) 3,2 = 3,2 − 0</li><li>в) (18 − 6) : 2</li></ul></li>
+      <li><div class="qhead">Яка дія має найвищий (III) ступінь?</div>
+        <ul><li>а) множення</li><li>б) віднімання</li><li>в) піднесення до степеня</li></ul></li>
+      <li><div class="qhead">У якому порядку виконують дії одного ступеня без дужок?</div>
+        <ul><li>а) справа наліво</li><li>б) зліва направо</li><li>в) спочатку останню дію</li></ul></li>
+      <li><div class="qhead">Чому дорівнює значення виразу 16 − 3 · 4?</div>
+        <ul><li>а) 4</li><li>б) 52</li><li>в) 13</li></ul></li>
+      <li><div class="qhead">Вираз 8 : (5 − 5) не має змісту, тому що…</div>
+        <ul><li>а) у ньому забагато дужок</li><li>б) там ділення на нуль</li><li>в) там від'ємне число</li></ul></li>
+      <li><div class="qhead">Чому дорівнює значення виразу 2² + 3 · 5?</div>
+        <ul><li>а) 19</li><li>б) 25</li><li>в) 17</li></ul></li>
+      <li><div class="qhead">Яку дію виконують першою у виразі (7 + 3) · 2²?</div>
+        <ul><li>а) множення</li><li>б) піднесення до степеня</li><li>в) дію в дужках</li></ul></li>
+      <li><div class="qhead">Чому дорівнює значення виразу (10 − 4) : 2 + 5?</div>
+        <ul><li>а) 8</li><li>б) 11</li><li>в) 2</li></ul></li>
+    </ol>
+    <details style="margin-top:18px;">
+      <summary>Показати ключ відповідей</summary>
+      <div class="answer" style="max-width:520px;">1 — в; 2 — в; 3 — б; 4 — а (16−12=4); 5 — б; 6 — а (4+15=19); 7 — в; 8 — а (6:2+5=8)</div>
+    </details>
+  </section>
+
+  <section id="work">
+    <span class="num">08</span>
+    <h2>Самостійна робота</h2>
+    <p>Три рівноцінні варіанти. Учитель обирає один варіант для кожного учня або групи.</p>
+    <div class="variants">
+      <div class="variant">
+        <h4>Варіант 1</h4>
+        <ol>
+          <li>Чи є числовим виразом запис:<br>а) 24 : 6 + 3&nbsp; б) 5x − 2&nbsp; в) (14 + 6) : 4</li>
+          <li>Чи має зміст вираз <span class="expr">45 : (9 − 9) + 2</span>? Поясніть.</li>
+          <li>Обчисліть: <span class="expr">18 − 5 · 3</span></li>
+          <li>Обчисліть: <span class="expr">(12 + 3) : 5 − 1</span></li>
+          <li>Обчисліть: <span class="expr">2³ − 4 · 2</span></li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 2</h4>
+        <ol>
+          <li>Чи є числовим виразом запис:<br>а) 7,5 · 2 − 1&nbsp; б) (16 : 4) + y&nbsp; в) 9 − 3 + 1</li>
+          <li>Чи має зміст вираз <span class="expr">30 : (8 − 8) − 5</span>? Поясніть.</li>
+          <li>Обчисліть: <span class="expr">24 − 7 · 3</span></li>
+          <li>Обчисліть: <span class="expr">(20 − 5) : 3 + 2</span></li>
+          <li>Обчисліть: <span class="expr">3² − 5 · 1</span></li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 3</h4>
+        <ol>
+          <li>Чи є числовим виразом запис:<br>а) 100 : 5 − 4&nbsp; б) 6 + a · 2&nbsp; в) (8 − 3) · 2</li>
+          <li>Чи має зміст вираз <span class="expr">12 : (6 − 6) + 7</span>? Поясніть.</li>
+          <li>Обчисліть: <span class="expr">27 − 4 · 5</span></li>
+          <li>Обчисліть: <span class="expr">(18 + 2) : 4 − 1</span></li>
+          <li>Обчисліть: <span class="expr">4² − 3 · 4</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="end">
+    <span>За підручником: Тарасенкова Н. А. та ін., «Алгебра. 7 клас» (2024), § 1, с. 12–16.</span>
+    <span>Розділ 2 · Вирази і тотожності</span>
+  </footer>
+
+</div>
+</body>
+</html>

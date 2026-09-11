@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Точки, прямі, промені</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#EEF1F7;
+    --surface:#FFFFFF;
+    --surface-soft:#F5F7FB;
+    --ink:#1B2333;
+    --ink-soft:#4E5972;
+    --line:#D7DCE8;
+    --accent:#2C4A8C;
+    --accent-soft:#E4EAF8;
+    --accent-strong:#17264C;
+    --warn:#B5641A;
+    --warn-soft:#FBEEE0;
+    --good:#1F7A5C;
+    --good-soft:#E4F3EC;
+    --shadow: 0 1px 2px rgba(27,35,51,.04), 0 8px 24px -12px rgba(27,35,51,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11141E;
+      --surface:#1A1F2E;
+      --surface-soft:#20263A;
+      --ink:#E7EAF3;
+      --ink-soft:#A7AFC6;
+      --line:#313A55;
+      --accent:#8FADF2;
+      --accent-soft:#233257;
+      --accent-strong:#C7D6FA;
+      --warn:#E3A15B;
+      --warn-soft:#3A2C19;
+      --good:#6FCBA6;
+      --good-soft:#173229;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11141E;
+    --surface:#1A1F2E;
+    --surface-soft:#20263A;
+    --ink:#E7EAF3;
+    --ink-soft:#A7AFC6;
+    --line:#313A55;
+    --accent:#8FADF2;
+    --accent-soft:#233257;
+    --accent-strong:#C7D6FA;
+    --warn:#E3A15B;
+    --warn-soft:#3A2C19;
+    --good:#6FCBA6;
+    --good-soft:#173229;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);}
+  img{max-width:100%;}
+
+  .wrap{max-width:760px; margin:0 auto; padding:40px 24px 96px;}
+
+  h1,h2,h3{font-family:'Bitter',Georgia,serif; text-wrap:balance; color:var(--ink); margin:0;}
+  h1{font-size:2.4rem; font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:1.5rem; font-weight:700; margin-bottom:.15em;}
+  h3{font-size:1.15rem; font-weight:600;}
+  p{margin:0 0 1em; max-width:66ch;}
+  .lede{font-size:1.08rem; color:var(--ink-soft); max-width:60ch;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:.6em;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); font-weight:500; margin-bottom:1em;
+  }
+  .eyebrow .dot{width:5px; height:5px; border-radius:50%; background:var(--ink-soft); opacity:.5;}
+
+  header.lesson{
+    padding-bottom:28px; border-bottom:1px solid var(--line); margin-bottom:36px;
+  }
+
+  nav.toc{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:32px 0; box-shadow:var(--shadow);
+  }
+  nav.toc h3{font-family:'Manrope',sans-serif; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:.8em;}
+  nav.toc ol{margin:0; padding-left:1.25em; columns:2; column-gap:24px;}
+  nav.toc li{margin-bottom:.45em; break-inside:avoid;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.94rem; border-bottom:1px solid transparent;}
+  nav.toc a:hover, nav.toc a:focus-visible{color:var(--accent); border-bottom-color:var(--accent);}
+
+  section{margin:52px 0;}
+  section > .num{
+    font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:.85rem;
+    font-weight:600; margin-bottom:.3em; display:block;
+  }
+
+  .box{
+    border-radius:14px; padding:20px 24px; margin:22px 0;
+    border:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .box h4{margin:0 0 .5em; font-family:'Manrope',sans-serif; font-size:.92rem; font-weight:800; letter-spacing:.01em;}
+  .box p:last-child{margin-bottom:0;}
+  .box.remember{background:var(--accent-soft); border-color:transparent;}
+  .box.remember h4{color:var(--accent-strong);}
+  .box.warn{background:var(--warn-soft); border-color:transparent;}
+  .box.warn h4{color:var(--warn); display:flex; align-items:center; gap:.5em;}
+  .box.example{background:var(--surface);}
+  .box.example h4{color:var(--ink-soft); text-transform:uppercase; font-size:.75rem; letter-spacing:.07em;}
+  .box.aside{background:var(--surface-soft); border-style:dashed;}
+  .box.aside h4{color:var(--ink-soft);}
+
+  .expr{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums;}
+
+  table.rules{
+    width:100%; border-collapse:collapse; margin:20px 0;
+    background:var(--surface); border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid var(--line);
+  }
+  table.rules th, table.rules td{
+    text-align:left; padding:13px 18px; border-bottom:1px solid var(--line); font-size:.96rem;
+  }
+  table.rules th{
+    background:var(--surface-soft); font-family:'Manrope',sans-serif;
+    font-weight:700; font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);
+  }
+  table.rules tr:last-child td{border-bottom:none;}
+  table.rules td strong{color:var(--accent);}
+  table.rules td .expr{color:var(--accent-strong); font-weight:600;}
+
+  .solve{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; margin:18px 0; box-shadow:var(--shadow);
+  }
+  .solve ol{margin:0; padding-left:1.3em;}
+  .solve li{margin-bottom:.5em; font-family:'JetBrains Mono',monospace; font-size:.98rem;}
+  .solve li::marker{color:var(--ink-soft); font-family:'Manrope',sans-serif;}
+
+  .diagram-wrap{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:20px; margin:24px 0; box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .diagram-wrap figcaption{
+    font-size:.82rem; color:var(--ink-soft); text-align:center; margin-top:10px;
+  }
+  svg{display:block; margin:0 auto;}
+
+  .practice-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:20px 0;
+  }
+  .practice-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .practice-card .expr{font-size:1rem; display:block; margin-bottom:10px; color:var(--ink); font-family:'Manrope',sans-serif; font-weight:500;}
+  details{margin-top:6px;}
+  details summary{
+    cursor:pointer; font-size:.82rem; color:var(--accent); font-weight:600;
+    list-style:none; display:inline-flex; align-items:center; gap:.35em;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:"▸"; font-size:.7rem; transition:transform .15s ease;}
+  details[open] summary::before{transform:rotate(90deg);}
+  details .answer{
+    margin-top:8px; padding:10px 12px; background:var(--good-soft); border-radius:8px;
+    font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--good);
+  }
+
+  ol.quiz{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px;}
+  ol.quiz > li{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 20px; box-shadow:var(--shadow); counter-increment:q;
+  }
+  ol.quiz{counter-reset:q;}
+  ol.quiz > li .qhead{display:flex; gap:.6em; font-weight:600; margin-bottom:.6em;}
+  ol.quiz > li .qhead::before{
+    content:counter(q); font-family:'JetBrains Mono',monospace; color:var(--accent);
+    background:var(--accent-soft); width:1.6em; height:1.6em; border-radius:6px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0;
+  }
+  ol.quiz ul{margin:0; padding-left:0; list-style:none; display:grid; gap:6px;}
+  ol.quiz ul li{
+    padding:8px 12px; border:1px solid var(--line); border-radius:8px; font-size:.94rem;
+    background:var(--surface-soft);
+  }
+
+  .variants{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin:20px 0;}
+  .variant{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px; box-shadow:var(--shadow);
+  }
+  .variant h4{
+    font-family:'Bitter',serif; font-size:1.1rem; margin:0 0 .9em;
+    padding-bottom:.5em; border-bottom:2px solid var(--accent-soft); color:var(--accent-strong);
+  }
+  .variant ol{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:10px;}
+  .variant li{font-size:.92rem;}
+  .variant .expr{display:block; margin-top:2px;}
+
+  footer.end{
+    margin-top:64px; padding-top:20px; border-top:1px solid var(--line);
+    color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+
+  @media (max-width:520px){
+    h1{font-size:1.9rem;}
+    nav.toc ol{columns:1;}
+    .box, .solve{padding:16px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="lesson">
+    <div class="eyebrow">Геометрія <span class="dot"></span> 7 клас <span class="dot"></span> Розділ 2, § 1</div>
+    <h1>Точки, прямі, промені</h1>
+    <p class="lede">Що вивчає геометрія, як позначають точки й прямі, чому через дві точки можна провести лише одну пряму, і що таке промінь та доповняльні промені — з поясненнями, схемами та прикладами за підручником Бурди (2024), с. 11–17.</p>
+  </header>
+
+  <nav class="toc" aria-label="Зміст лекції">
+    <h3>Зміст</h3>
+    <ol>
+      <li><a href="#intro">Що вивчає геометрія</a></li>
+      <li><a href="#points">Точки і прямі</a></li>
+      <li><a href="#cross">Перетин прямих</a></li>
+      <li><a href="#order">Розміщення точок на прямій</a></li>
+      <li><a href="#ray">Промінь і доповняльні промені</a></li>
+      <li><a href="#practice">Приклади для закріплення</a></li>
+      <li><a href="#quiz">Тест самоперевірки</a></li>
+      <li><a href="#work">Самостійна робота</a></li>
+    </ol>
+  </nav>
+
+  <section id="intro">
+    <span class="num">01</span>
+    <h2>Що вивчає геометрія</h2>
+    <p>Предмети навколо нас відрізняються матеріалом, масою, призначенням. У геометрії з усього цього беруть до уваги лише <strong>форму</strong>, <strong>розміри</strong> й <strong>взаємне розміщення</strong> предметів. Схожим за формою предметам ставлять у відповідність <em>геометричну фігуру</em>: глобус, футбольний м'яч і апельсин мають форму кулі — куля є геометричною фігурою.</p>
+    <p>У навколишньому світі ідеальних геометричних фігур не існує — їх «створює» уява людини. Фігури бувають <strong>просторовими</strong> (куля, куб, паралелепіпед — їх вивчають у просторі) і фігурами <strong>на площині</strong> (відрізок, трикутник, прямокутник, коло).</p>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Геометрія</strong> — це наука про властивості геометричних фігур. Розділ, у якому вивчають властивості фігур на площині, називають <em>планіметрією</em> (від лат. <em>planum</em> — площина). Просторові фігури вивчають у <em>стереометрії</em> (від грец. <em>stereos</em> — просторовий). Ми починаємо вивчати геометрію з планіметрії.</p>
+    </div>
+    <p>Найпростіша геометрична фігура — <strong>точка</strong>. Кожну геометричну фігуру вважають складеною з точок.</p>
+  </section>
+
+  <section id="points">
+    <span class="num">02</span>
+    <h2>Точки і прямі</h2>
+    <p>Точку зображують, натиснувши на аркуш олівцем. Пряму проводять за допомогою лінійки. На малюнку зображаємо лише частину прямої, а всю пряму уявляємо необмежено продовженою в обидва боки — вона не має ні ширини, ні товщини.</p>
+    <p>Точки позначають великими латинськими буквами <span class="expr">A, B, C, D…</span>, а прямі — малими латинськими буквами <span class="expr">a, b, c, d…</span>.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 220" width="100%" style="max-width:600px; min-width:420px" role="img" aria-labelledby="diagA-title diagA-desc">
+        <title id="diagA-title">Точки на прямій і поза нею</title>
+        <desc id="diagA-desc">Точки A і B лежать на прямій a. Точки C і D не лежать на прямій a.</desc>
+        <g font-family="Manrope, sans-serif">
+          <line x1="40" y1="140" x2="600" y2="140" stroke="var(--ink-soft)" stroke-width="2"/>
+          <path d="M40 140 L54 134 M40 140 L54 146" stroke="var(--ink-soft)" stroke-width="2" fill="none"/>
+          <path d="M600 140 L586 134 M600 140 L586 146" stroke="var(--ink-soft)" stroke-width="2" fill="none"/>
+          <text x="30" y="120" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--ink-soft)">a</text>
+
+          <circle cx="180" cy="140" r="5" fill="var(--accent)"/>
+          <text x="180" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--ink)">A</text>
+          <text x="180" y="168" text-anchor="middle" font-size="13" fill="var(--accent)">A ∈ a</text>
+
+          <circle cx="400" cy="140" r="5" fill="var(--accent)"/>
+          <text x="400" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--ink)">B</text>
+          <text x="400" y="168" text-anchor="middle" font-size="13" fill="var(--accent)">B ∈ a</text>
+
+          <circle cx="270" cy="60" r="5" fill="var(--warn)"/>
+          <text x="270" y="45" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--ink)">C</text>
+          <text x="290" y="60" font-size="13" fill="var(--warn)">C ∉ a</text>
+
+          <circle cx="480" cy="200" r="5" fill="var(--warn)"/>
+          <text x="480" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--ink)" dy="-8">D</text>
+          <text x="500" y="203" font-size="13" fill="var(--warn)">D ∉ a</text>
+        </g>
+      </svg>
+      <figcaption>Мал. А. Точки A і B лежать на прямій a; точки C і D — не лежать.</figcaption>
+    </figure>
+
+    <table class="rules">
+      <thead><tr><th>Запис</th><th>Що означає</th></tr></thead>
+      <tbody>
+        <tr><td><span class="expr">A ∈ a</span></td><td>точка <strong>A лежить</strong> (належить) на прямій a</td></tr>
+        <tr><td><span class="expr">C ∉ a</span></td><td>точка <strong>C не лежить</strong> (не належить) на прямій a</td></tr>
+        <tr><td><span class="expr">a = AB</span></td><td>пряму a можна позначити двома її точками</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box remember">
+      <h4>Властивість прямої</h4>
+      <p>Через будь-які дві точки можна провести пряму, і тільки одну.</p>
+    </div>
+    <p>Завдяки цій властивості пряму можна позначати двома її точками — наприклад, пряма <span class="expr">AB</span> на малюнку А.</p>
+  </section>
+
+  <section id="cross">
+    <span class="num">03</span>
+    <h2>Перетин прямих</h2>
+    <p>Якщо дві прямі мають спільну точку, кажуть, що вони <strong>перетинаються</strong> в цій точці.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 400 200" width="100%" style="max-width:340px" role="img" aria-labelledby="diagD-title diagD-desc">
+        <title id="diagD-title">Дві прямі перетинаються в одній точці</title>
+        <desc id="diagD-desc">Пряма c і пряма d мають одну спільну точку P.</desc>
+        <g font-family="Manrope, sans-serif">
+          <line x1="40" y1="170" x2="360" y2="30" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="40" y1="30" x2="360" y2="170" stroke="var(--warn)" stroke-width="2.5"/>
+          <circle cx="200" cy="100" r="5.5" fill="var(--ink)"/>
+          <text x="216" y="96" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--ink)">P</text>
+          <text x="55" y="150" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--accent)">c</text>
+          <text x="55" y="46" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--warn)">d</text>
+        </g>
+      </svg>
+      <figcaption>Мал. Б. Прямі c і d перетинаються в точці P — вона їхня спільна точка.</figcaption>
+    </figure>
+
+    <div class="box warn">
+      <h4>⚠ Чому дві прямі не можуть перетинатися у двох точках</h4>
+      <p>Якби дві прямі перетиналися у двох точках, то кожна з них проходила б через обидві ці точки. Але через дві точки можна провести <strong>тільки одну</strong> пряму — тож обидві «прямі» насправді збіглися б в одну. Отже, дві різні прямі мають не більше однієї спільної точки.</p>
+    </div>
+  </section>
+
+  <section id="order">
+    <span class="num">04</span>
+    <h2>Розміщення точок на прямій</h2>
+    <p>Три точки на прямій можуть бути розміщені лише одним способом: <strong>одна з них лежить між двома іншими</strong>. Рівнозначно можна сказати, що дві точки лежать <em>по один бік</em> від третьої.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 210" width="100%" style="max-width:600px; min-width:420px" role="img" aria-labelledby="diagC-title diagC-desc">
+        <title id="diagC-title">Розміщення точок на прямій</title>
+        <desc id="diagC-desc">У першому рядку точка B лежить між точками A і C. У другому рядку точки A, B і C лежать по один бік від точки X.</desc>
+        <g font-family="Manrope, sans-serif">
+          <line x1="60" y1="55" x2="580" y2="55" stroke="var(--ink-soft)" stroke-width="2"/>
+          <circle cx="140" cy="55" r="5" fill="var(--accent)"/>
+          <text x="140" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">A</text>
+          <circle cx="340" cy="55" r="5" fill="var(--good)"/>
+          <text x="340" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">B</text>
+          <circle cx="520" cy="55" r="5" fill="var(--accent)"/>
+          <text x="520" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">C</text>
+          <text x="340" y="85" text-anchor="middle" font-size="13" fill="var(--good)">B лежить між A і C</text>
+
+          <line x1="60" y1="165" x2="580" y2="165" stroke="var(--ink-soft)" stroke-width="2"/>
+          <circle cx="140" cy="165" r="5" fill="var(--accent)"/>
+          <text x="140" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">A</text>
+          <circle cx="280" cy="165" r="5" fill="var(--accent)"/>
+          <text x="280" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">B</text>
+          <circle cx="420" cy="165" r="5" fill="var(--accent)"/>
+          <text x="420" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">C</text>
+          <circle cx="540" cy="165" r="5" fill="var(--warn)"/>
+          <text x="540" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">X</text>
+          <text x="280" y="195" text-anchor="middle" font-size="13" fill="var(--warn)">A, B, C — по один бік від X</text>
+        </g>
+      </svg>
+      <figcaption>Мал. В. Два способи описати розміщення точок на прямій.</figcaption>
+    </figure>
+
+    <div class="box example">
+      <h4>Задача (за підручником)</h4>
+      <p>На прямій позначено точки <span class="expr">T</span>, <span class="expr">R</span> і <span class="expr">S</span>. Відомо, що точки T і R лежать з одного боку від точки S, а точка T не лежить між точками S і R. Розмістіть ці точки на прямій.</p>
+    </div>
+    <div class="solve">
+      <p style="color:var(--ink-soft); font-size:.85rem; margin-bottom:.5em;">Розв'язання</p>
+      <p>З трьох точок лише одна може лежати між двома іншими. Оскільки T і R — по один бік від S, «кандидатом» на середню позицію є S, R або T. Умова каже, що T не лежить між S і R — отже, між ними лежить R. Порядок точок:</p>
+      <p class="expr" style="font-size:1.1rem; text-align:center; color:var(--good); margin-bottom:0;">S — R — T</p>
+    </div>
+  </section>
+
+  <section id="ray">
+    <span class="num">05</span>
+    <h2>Промінь і доповняльні промені</h2>
+    <p>Проведімо пряму <span class="expr">a</span> і позначимо на ній точку <span class="expr">O</span>. Точка ділить пряму на дві частини — два <strong>промені</strong>, що виходять із точки O.</p>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Променем</strong> називається частина прямої, яка складається з точки на прямій та всіх точок прямої, що лежать по один бік від даної точки. Ця точка називається <em>початком променя</em>.</p>
+    </div>
+    <p>Промінь позначають двома великими буквами: перша позначає початок променя, а друга — будь-яку іншу точку на ньому. <strong>Порядок букв важливий</strong>: промінь <span class="expr">OA</span> і промінь <span class="expr">AO</span> — це різні промені (у другого початком є точка A).</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 150" width="100%" style="max-width:600px; min-width:420px" role="img" aria-labelledby="diagE-title diagE-desc">
+        <title id="diagE-title">Доповняльні промені OB і OA</title>
+        <desc id="diagE-desc">Промені OB і OA мають спільний початок у точці O і разом утворюють пряму.</desc>
+        <g font-family="Manrope, sans-serif">
+          <line x1="70" y1="75" x2="570" y2="75" stroke="var(--ink-soft)" stroke-width="2.5"/>
+          <path d="M70 75 L86 68 M70 75 L86 82" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+          <path d="M570 75 L554 68 M570 75 L554 82" stroke="var(--warn)" stroke-width="2.5" fill="none"/>
+
+          <circle cx="120" cy="75" r="5" fill="var(--accent)"/>
+          <text x="120" y="60" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">B</text>
+
+          <circle cx="320" cy="75" r="6" fill="var(--ink)"/>
+          <text x="320" y="60" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">O</text>
+
+          <circle cx="500" cy="75" r="5" fill="var(--warn)"/>
+          <text x="500" y="60" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">A</text>
+
+          <text x="200" y="115" text-anchor="middle" font-size="14" fill="var(--accent)">промінь OB</text>
+          <text x="440" y="115" text-anchor="middle" font-size="14" fill="var(--warn)">промінь OA</text>
+        </g>
+      </svg>
+      <figcaption>Мал. Г. Промені OB і OA мають спільний початок O і разом складають пряму a — вони доповняльні.</figcaption>
+    </figure>
+
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p>Два промені, які мають спільний початок і доповнюють один одного до прямої, називаються <strong>доповняльними</strong>. Якщо на прямій позначити одну точку, вона завжди утворює рівно дві доповняльні промені.</p>
+    </div>
+  </section>
+
+  <section id="practice">
+    <span class="num">06</span>
+    <h2>Приклади для закріплення</h2>
+    <p>Дайте відповідь усно, а тоді відкрийте пояснення і перевірте себе.</p>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <span class="expr">Точка K лежить на прямій b. Запишіть це за допомогою знака.</span>
+        <details><summary>Відповідь</summary><div class="answer">K ∈ b</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Скільки прямих можна провести через дві задані точки?</span>
+        <details><summary>Відповідь</summary><div class="answer">тільки одну</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Точка Q лежить між точками P і R. Зобразіть це схематично.</span>
+        <details><summary>Відповідь</summary><div class="answer">P — Q — R</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Чи є промінь OA тим самим променем, що й AO?</span>
+        <details><summary>Відповідь</summary><div class="answer">ні — різні початки, різні промені</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Промені OB і OC мають спільний початок і разом утворюють пряму. Як їх назвати одним словом?</span>
+        <details><summary>Відповідь</summary><div class="answer">доповняльні промені</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Скільки спільних точок можуть мати дві різні прямі?</span>
+        <details><summary>Відповідь</summary><div class="answer">не більше однієї</div></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <span class="num">07</span>
+    <h2>Тест самоперевірки</h2>
+    <p>Оберіть правильну відповідь подумки, а тоді відкрийте ключ у кінці розділу.</p>
+    <ol class="quiz">
+      <li><div class="qhead">Яка фігура вважається найпростішою геометричною фігурою?</div>
+        <ul><li>а) пряма</li><li>б) точка</li><li>в) промінь</li></ul></li>
+      <li><div class="qhead">Скільки прямих можна провести через одну задану точку?</div>
+        <ul><li>а) тільки одну</li><li>б) дві</li><li>в) безліч</li></ul></li>
+      <li><div class="qhead">Скільки прямих можна провести через дві задані точки?</div>
+        <ul><li>а) тільки одну</li><li>б) дві</li><li>в) жодної</li></ul></li>
+      <li><div class="qhead">Як записують те, що точка K не лежить на прямій b?</div>
+        <ul><li>а) K ∈ b</li><li>б) K ∉ b</li><li>в) K = b</li></ul></li>
+      <li><div class="qhead">Що таке промінь?</div>
+        <ul><li>а) лінія, необмежена з обох боків</li><li>б) частина прямої, обмежена з одного боку точкою</li><li>в) відрізок із двома кінцями</li></ul></li>
+      <li><div class="qhead">У назві променя OA буква O позначає…</div>
+        <ul><li>а) довільну точку променя</li><li>б) початок променя</li><li>в) середину променя</li></ul></li>
+      <li><div class="qhead">Як називають два промені зі спільним початком, що разом утворюють пряму?</div>
+        <ul><li>а) рівними</li><li>б) паралельними</li><li>в) доповняльними</li></ul></li>
+      <li><div class="qhead">Скільки спільних точок можуть мати дві різні прямі?</div>
+        <ul><li>а) рівно дві</li><li>б) не більше однієї</li><li>в) безліч</li></ul></li>
+    </ol>
+    <details style="margin-top:18px;">
+      <summary>Показати ключ відповідей</summary>
+      <div class="answer" style="max-width:520px;">1 — б; 2 — в; 3 — а; 4 — б; 5 — б; 6 — б; 7 — в; 8 — б</div>
+    </details>
+  </section>
+
+  <section id="work">
+    <span class="num">08</span>
+    <h2>Самостійна робота</h2>
+    <p>Три рівноцінні варіанти. Учитель обирає один варіант для кожного учня або групи. Усі побудови виконуйте за допомогою лінійки.</p>
+    <div class="variants">
+      <div class="variant">
+        <h4>Варіант 1</h4>
+        <ol>
+          <li>Проведіть пряму a. Позначте на ній точки A і B, і точку C, що не лежить на прямій. Запишіть відповідні позначення (∈ або ∉).</li>
+          <li>Проведіть доповняльні промені з початком у точці D. Запишіть їх назви, позначивши на прямій потрібні для запису точки.</li>
+          <li>На прямій позначено точки K, L, M. Точки K і M лежать з одного боку від точки L, а точка K не лежить між точками L і M. Розмістіть точки на прямій.</li>
+          <li>На прямій позначили 3 точки. Скільки променів утворилося?</li>
+          <li>Промінь називається DP. Яка з точок є його початком?</li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 2</h4>
+        <ol>
+          <li>Проведіть пряму m. Позначте на ній точки C і D, і точку E, що не лежить на прямій. Запишіть відповідні позначення (∈ або ∉).</li>
+          <li>Проведіть доповняльні промені з початком у точці N. Запишіть їх назви, позначивши на прямій потрібні для запису точки.</li>
+          <li>На прямій позначено точки X, Y, Z. Точки X і Z лежать з одного боку від точки Y, а точка X не лежить між точками Y і Z. Розмістіть точки на прямій.</li>
+          <li>На прямій позначили 4 точки, з яких жодні три не лежать на одній інший прямій. Скільки прямих можна провести через кожну пару цих точок?</li>
+          <li>Промінь називається FG. Яка з точок є його початком?</li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 3</h4>
+        <ol>
+          <li>Проведіть пряму n. Позначте на ній точки G і H, і точку I, що не лежить на прямій. Запишіть відповідні позначення (∈ або ∉).</li>
+          <li>Проведіть доповняльні промені з початком у точці S. Запишіть їх назви, позначивши на прямій потрібні для запису точки.</li>
+          <li>На прямій позначено точки A, B, C. Точки A і C лежать з одного боку від точки B, а точка A не лежить між точками B і C. Розмістіть точки на прямій.</li>
+          <li>На прямій позначили 4 точки. Скільки променів утворилося?</li>
+          <li>Промінь називається KL. Яка з точок є його початком?</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="end">
+    <span>За підручником: Бурда М. І. та ін., «Геометрія. 7 клас» (2024), § 1, с. 11–17.</span>
+    <span>Розділ 2 · Елементарні геометричні фігури та їх властивості</span>
+  </footer>
+
+</div>
+</body>
+</html>

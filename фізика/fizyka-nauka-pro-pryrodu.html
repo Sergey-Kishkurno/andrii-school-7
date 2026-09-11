@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фізика — наука про природу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#EEF1F7;
+    --surface:#FFFFFF;
+    --surface-soft:#F5F7FB;
+    --ink:#1B2333;
+    --ink-soft:#4E5972;
+    --line:#D7DCE8;
+    --accent:#2C4A8C;
+    --accent-soft:#E4EAF8;
+    --accent-strong:#17264C;
+    --warn:#B5641A;
+    --warn-soft:#FBEEE0;
+    --good:#1F7A5C;
+    --good-soft:#E4F3EC;
+    --shadow: 0 1px 2px rgba(27,35,51,.04), 0 8px 24px -12px rgba(27,35,51,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11141E;
+      --surface:#1A1F2E;
+      --surface-soft:#20263A;
+      --ink:#E7EAF3;
+      --ink-soft:#A7AFC6;
+      --line:#313A55;
+      --accent:#8FADF2;
+      --accent-soft:#233257;
+      --accent-strong:#C7D6FA;
+      --warn:#E3A15B;
+      --warn-soft:#3A2C19;
+      --good:#6FCBA6;
+      --good-soft:#173229;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11141E;
+    --surface:#1A1F2E;
+    --surface-soft:#20263A;
+    --ink:#E7EAF3;
+    --ink-soft:#A7AFC6;
+    --line:#313A55;
+    --accent:#8FADF2;
+    --accent-soft:#233257;
+    --accent-strong:#C7D6FA;
+    --warn:#E3A15B;
+    --warn-soft:#3A2C19;
+    --good:#6FCBA6;
+    --good-soft:#173229;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);}
+  img{max-width:100%;}
+
+  .wrap{max-width:760px; margin:0 auto; padding:40px 24px 96px;}
+
+  h1,h2,h3{font-family:'Bitter',Georgia,serif; text-wrap:balance; color:var(--ink); margin:0;}
+  h1{font-size:2.4rem; font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:1.5rem; font-weight:700; margin-bottom:.15em;}
+  h3{font-size:1.15rem; font-weight:600;}
+  p{margin:0 0 1em; max-width:66ch;}
+  .lede{font-size:1.08rem; color:var(--ink-soft); max-width:60ch;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:.6em;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); font-weight:500; margin-bottom:1em;
+  }
+  .eyebrow .dot{width:5px; height:5px; border-radius:50%; background:var(--ink-soft); opacity:.5;}
+
+  header.lesson{
+    padding-bottom:28px; border-bottom:1px solid var(--line); margin-bottom:36px;
+  }
+
+  nav.toc{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:32px 0; box-shadow:var(--shadow);
+  }
+  nav.toc h3{font-family:'Manrope',sans-serif; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:.8em;}
+  nav.toc ol{margin:0; padding-left:1.25em; columns:2; column-gap:24px;}
+  nav.toc li{margin-bottom:.45em; break-inside:avoid;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.94rem; border-bottom:1px solid transparent;}
+  nav.toc a:hover, nav.toc a:focus-visible{color:var(--accent); border-bottom-color:var(--accent);}
+
+  section{margin:52px 0;}
+  section > .num{
+    font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:.85rem;
+    font-weight:600; margin-bottom:.3em; display:block;
+  }
+
+  .box{
+    border-radius:14px; padding:20px 24px; margin:22px 0;
+    border:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .box h4{margin:0 0 .5em; font-family:'Manrope',sans-serif; font-size:.92rem; font-weight:800; letter-spacing:.01em;}
+  .box p:last-child{margin-bottom:0;}
+  .box.remember{background:var(--accent-soft); border-color:transparent;}
+  .box.remember h4{color:var(--accent-strong);}
+  .box.warn{background:var(--warn-soft); border-color:transparent;}
+  .box.warn h4{color:var(--warn); display:flex; align-items:center; gap:.5em;}
+  .box.example{background:var(--surface);}
+  .box.example h4{color:var(--ink-soft); text-transform:uppercase; font-size:.75rem; letter-spacing:.07em;}
+  .box.aside{background:var(--surface-soft); border-style:dashed;}
+  .box.aside h4{color:var(--ink-soft);}
+
+  .expr{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums;}
+
+  table.rules{
+    width:100%; border-collapse:collapse; margin:20px 0;
+    background:var(--surface); border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid var(--line);
+  }
+  table.rules th, table.rules td{
+    text-align:left; padding:13px 18px; border-bottom:1px solid var(--line); font-size:.96rem;
+  }
+  table.rules th{
+    background:var(--surface-soft); font-family:'Manrope',sans-serif;
+    font-weight:700; font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);
+  }
+  table.rules tr:last-child td{border-bottom:none;}
+  table.rules td strong{color:var(--accent);}
+
+  .solve{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; margin:18px 0; box-shadow:var(--shadow);
+  }
+  .solve ol{margin:0; padding-left:1.3em;}
+  .solve li{margin-bottom:.5em; font-family:'JetBrains Mono',monospace; font-size:.98rem;}
+  .solve li::marker{color:var(--ink-soft); font-family:'Manrope',sans-serif;}
+
+  .diagram-wrap{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:20px; margin:24px 0; box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .diagram-wrap figcaption{
+    font-size:.82rem; color:var(--ink-soft); text-align:center; margin-top:10px;
+  }
+  svg{display:block; margin:0 auto;}
+
+  .practice-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:20px 0;
+  }
+  .practice-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .practice-card .expr{font-size:1rem; display:block; margin-bottom:10px; color:var(--ink); font-family:'Manrope',sans-serif; font-weight:600;}
+  details{margin-top:6px;}
+  details summary{
+    cursor:pointer; font-size:.82rem; color:var(--accent); font-weight:600;
+    list-style:none; display:inline-flex; align-items:center; gap:.35em;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:"▸"; font-size:.7rem; transition:transform .15s ease;}
+  details[open] summary::before{transform:rotate(90deg);}
+  details .answer{
+    margin-top:8px; padding:10px 12px; background:var(--good-soft); border-radius:8px;
+    font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--good);
+  }
+
+  ol.quiz{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px;}
+  ol.quiz > li{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:16px 20px; box-shadow:var(--shadow); counter-increment:q;
+  }
+  ol.quiz{counter-reset:q;}
+  ol.quiz > li .qhead{display:flex; gap:.6em; font-weight:600; margin-bottom:.6em;}
+  ol.quiz > li .qhead::before{
+    content:counter(q); font-family:'JetBrains Mono',monospace; color:var(--accent);
+    background:var(--accent-soft); width:1.6em; height:1.6em; border-radius:6px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0;
+  }
+  ol.quiz ul{margin:0; padding-left:0; list-style:none; display:grid; gap:6px;}
+  ol.quiz ul li{
+    padding:8px 12px; border:1px solid var(--line); border-radius:8px; font-size:.94rem;
+    background:var(--surface-soft);
+  }
+
+  .variants{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin:20px 0;}
+  .variant{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px; box-shadow:var(--shadow);
+  }
+  .variant h4{
+    font-family:'Bitter',serif; font-size:1.1rem; margin:0 0 .9em;
+    padding-bottom:.5em; border-bottom:2px solid var(--accent-soft); color:var(--accent-strong);
+  }
+  .variant ol{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:10px;}
+  .variant li{font-size:.92rem;}
+  .variant .expr{display:block; margin-top:2px;}
+
+  footer.end{
+    margin-top:64px; padding-top:20px; border-top:1px solid var(--line);
+    color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+
+  @media (max-width:520px){
+    h1{font-size:1.9rem;}
+    nav.toc ol{columns:1;}
+    .box, .solve{padding:16px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="lesson">
+    <div class="eyebrow">Фізика <span class="dot"></span> 7 клас <span class="dot"></span> Розділ 1, § 1</div>
+    <h1>Фізика — наука про природу</h1>
+    <p class="lede">Що таке закони природи, звідки взялася фізика, як працює науковий метод, чим фізичне тіло відрізняється від фізичного явища і на які види ці явища поділяють — з поясненнями, схемами та прикладами за підручником Барʼяхтара (2024), с. 6–8.</p>
+  </header>
+
+  <nav class="toc" aria-label="Зміст лекції">
+    <h3>Зміст</h3>
+    <ol>
+      <li><a href="#intro">Дива чи закони природи</a></li>
+      <li><a href="#history">Як усе починалося</a></li>
+      <li><a href="#method">Фізика — наука експериментальна</a></li>
+      <li><a href="#core">Чому фізика — основна серед природничих наук</a></li>
+      <li><a href="#def">Означення фізики</a></li>
+      <li><a href="#bodies">Фізичні тіла і фізичні явища</a></li>
+      <li><a href="#types">Види фізичних явищ</a></li>
+      <li><a href="#practice">Приклади для закріплення</a></li>
+      <li><a href="#quiz">Тест самоперевірки</a></li>
+      <li><a href="#work">Самостійна робота</a></li>
+    </ol>
+  </nav>
+
+  <section id="intro">
+    <span class="num">01</span>
+    <h2>Дива чи закони природи?</h2>
+    <p>Кубик льоду в теплій воді розтане, а вода охолоне. Інакше не буває: не з'являться ані другий кубик льоду, ані гаряча вода. Незалежно від якості гальм, для зупинки тіла потрібен час — миттєва зупинка неможлива. Спалах блискавки завжди передує гуркоту грому, бо світло швидше за звук.</p>
+    <p>Впустіть ручку на підлогу — вона впаде вниз. Повторіть це хоч 1000 разів: у жодному разі вона не полетить угору. Так само щоранку, без винятків, сонце піднімається над обрієм. Усе, що відбувається в природі, підпорядковується певним правилам. Ці правила називають <strong>законами природи</strong>. Саме їх вивчення і застосування — предмет фізики.</p>
+
+    <p>На перший погляд може здатися, що деякі явища — просто випадковість або диво. Але щойно ми перевіряємо їх багато разів у різних умовах, виявляється: за уявною випадковістю завжди ховається правило, яке ще ніхто не сформулював або не помітив. Саме тому фізику часто називають наукою, що «розчакловує» природу — пояснює дивовижне через прості й перевірювані причини.</p>
+
+    <div class="box remember">
+      <h4>Три ознаки закону природи</h4>
+      <p><strong>Об'єктивність</strong> — закон діє незалежно від того, знаємо ми про нього чи ні, подобається він нам чи ні.<br>
+      <strong>Повторюваність</strong> — за однакових умов результат завжди однаковий, скільки б разів ми не перевіряли.<br>
+      <strong>Передбачуваність</strong> — знаючи закон, можна заздалегідь сказати, що відбудеться, навіть не проводячи досліду.</p>
+    </div>
+
+    <p>Наприклад, якщо ви знаєте закон, за яким тіла падають на Землю, то можете заздалегідь розрахувати, за скільки секунд каменю, кинутому зі скелі, долетіти до її підніжжя, — не чекаючи, поки він справді впаде.</p>
+  </section>
+
+  <section id="history">
+    <span class="num">02</span>
+    <h2>Як усе починалося</h2>
+    <p>У далеку давнину людей спонукали до вивчення природи практичні потреби: захиститися від негоди, здобути їжу, вберегтися від хижаків. До того ж людину, як істоту допитливу, штовхала до пошуку відповідей на численні запитання: як виникла Земля? Як літають птахи? Звідки з'явилася сама людина? Так почала зароджуватися наука про природу — <strong>природознавство</strong>.</p>
+    <p>Із часом обсяг знань збільшувався, і єдина «наука про природу» почала розпадатися на окремі дисципліни.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 380" width="100%" style="max-width:560px; min-width:380px" role="img" aria-labelledby="diagA-title diagA-desc">
+        <title id="diagA-title">Природознавство і його дисципліни</title>
+        <desc id="diagA-desc">З природознавства з часом виокремилися фізика, хімія, географія, біологія і медицина.</desc>
+        <g font-family="Manrope, sans-serif">
+          <line x1="320" y1="190" x2="320" y2="75" stroke="var(--line)" stroke-width="2"/>
+          <line x1="320" y1="190" x2="130" y2="115" stroke="var(--line)" stroke-width="2"/>
+          <line x1="320" y1="190" x2="510" y2="115" stroke="var(--line)" stroke-width="2"/>
+          <line x1="320" y1="190" x2="130" y2="290" stroke="var(--line)" stroke-width="2"/>
+          <line x1="320" y1="190" x2="510" y2="290" stroke="var(--line)" stroke-width="2"/>
+
+          <circle cx="320" cy="190" r="58" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="320" y="184" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">Природо-</text>
+          <text x="320" y="202" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">знавство</text>
+
+          <circle cx="320" cy="55" r="42" fill="var(--good-soft)" stroke="var(--good)" stroke-width="1.5"/>
+          <text x="320" y="60" text-anchor="middle" font-weight="700" font-size="14" fill="var(--good)">Фізика</text>
+
+          <circle cx="115" cy="100" r="42" fill="var(--surface-soft)" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="115" y="105" text-anchor="middle" font-weight="600" font-size="13" fill="var(--ink)">Хімія</text>
+
+          <circle cx="525" cy="100" r="42" fill="var(--surface-soft)" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="525" y="105" text-anchor="middle" font-weight="600" font-size="13" fill="var(--ink)">Географія</text>
+
+          <circle cx="115" cy="305" r="42" fill="var(--surface-soft)" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="115" y="310" text-anchor="middle" font-weight="600" font-size="13" fill="var(--ink)">Біологія</text>
+
+          <circle cx="525" cy="305" r="42" fill="var(--surface-soft)" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="525" y="310" text-anchor="middle" font-weight="600" font-size="13" fill="var(--ink)">Медицина</text>
+        </g>
+      </svg>
+      <figcaption>Мал. А. Фізика, хімія, географія, біологія та медицина беруть свій початок у природознавстві.</figcaption>
+    </figure>
+
+    <table class="rules">
+      <thead><tr><th>Наука</th><th>Що вона вивчає</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Фізика</strong></td><td>найзагальніші закономірності явищ природи, будову й рух матерії</td></tr>
+        <tr><td>Хімія</td><td>речовини, їхній склад і перетворення одних речовин на інші</td></tr>
+        <tr><td>Географія</td><td>будову Землі, її оболонки, клімат, ландшафти</td></tr>
+        <tr><td>Біологія</td><td>живі організми, їхню будову, розвиток і взаємодію</td></tr>
+        <tr><td>Медицина</td><td>будову тіла людини, хвороби та способи їх лікування</td></tr>
+      </tbody>
+    </table>
+    <p>Межі між цими науками умовні: сучасні дослідження часто відбуваються на стику кількох дисциплін одразу — наприклад, медична фізика використовує рентгенівське випромінювання (закони фізики) для діагностики хвороб (предмет медицини).</p>
+  </section>
+
+  <section id="method">
+    <span class="num">03</span>
+    <h2>Фізика — наука експериментальна</h2>
+    <p>Фізику неможливо вивчити, просто завчаючи готові правила: вона — наука <em>дослідна</em>. Науковці не вигадують закони «з голови», а виводять їх за чітким алгоритмом, який називають <strong>науковим методом</strong>.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 680 220" width="100%" style="max-width:640px; min-width:460px" role="img" aria-labelledby="diagM-title diagM-desc">
+        <title id="diagM-title">Науковий метод пізнання природи</title>
+        <desc id="diagM-desc">Спостереження веде до гіпотези, гіпотезу перевіряють експериментом, підтверджена гіпотеза стає законом, а закон перевіряють на нових спостереженнях.</desc>
+        <g font-family="Manrope, sans-serif">
+          <rect x="10" y="60" width="140" height="70" rx="12" fill="var(--accent-soft)"/>
+          <text x="80" y="90" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">Спостере-</text>
+          <text x="80" y="108" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">ження</text>
+
+          <path d="M154 95 L196 95" stroke="var(--ink-soft)" stroke-width="2" marker-end="url(#am1)"/>
+
+          <rect x="200" y="60" width="140" height="70" rx="12" fill="var(--warn-soft)"/>
+          <text x="270" y="98" text-anchor="middle" font-weight="700" font-size="14" fill="var(--warn)">Гіпотеза</text>
+
+          <path d="M344 95 L386 95" stroke="var(--ink-soft)" stroke-width="2" marker-end="url(#am2)"/>
+
+          <rect x="390" y="60" width="140" height="70" rx="12" fill="var(--good-soft)"/>
+          <text x="460" y="98" text-anchor="middle" font-weight="700" font-size="14" fill="var(--good)">Експеримент</text>
+
+          <path d="M534 95 L576 95" stroke="var(--ink-soft)" stroke-width="2" marker-end="url(#am3)"/>
+
+          <rect x="580" y="60" width="95" height="70" rx="12" fill="var(--surface-soft)" stroke="var(--line)"/>
+          <text x="627" y="98" text-anchor="middle" font-weight="700" font-size="14" fill="var(--ink)">Закон</text>
+
+          <path d="M627 132 C 627 190, 80 190, 80 132" stroke="var(--ink-soft)" stroke-width="1.5" fill="none" stroke-dasharray="4 4" marker-end="url(#am4)"/>
+          <text x="350" y="205" text-anchor="middle" font-size="12" fill="var(--ink-soft)">закон перевіряють на нових прикладах — і цикл повторюється</text>
+        </g>
+        <defs>
+          <marker id="am1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--ink-soft)"/></marker>
+          <marker id="am2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--ink-soft)"/></marker>
+          <marker id="am3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--ink-soft)"/></marker>
+          <marker id="am4" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--ink-soft)"/></marker>
+        </defs>
+      </svg>
+      <figcaption>Мал. Б. Науковий метод: від спостереження до закону, який знову перевіряють на практиці.</figcaption>
+    </figure>
+
+    <p>Спочатку вчений <strong>спостерігає</strong> явище і збирає факти. Потім висуває <strong>гіпотезу</strong> — припущення, яке пояснює побачене. Гіпотезу перевіряють <strong>експериментом</strong>: досліджують явище в контрольованих умовах, які можна повторити. Якщо результати експерименту щоразу підтверджують гіпотезу — і в неї не знаходять жодного винятку, — гіпотеза стає <strong>законом природи</strong>.</p>
+    <div class="box warn">
+      <h4>⚠ Важливо</h4>
+      <p>Одного-двох вдалих дослідів недостатньо. Закон визнають лише тоді, коли результат підтверджується знову й знову — незалежно від того, хто, де і коли проводить дослід.</p>
+    </div>
+    <p>Саме тому впродовж курсу фізики ви будете не лише читати про явища, а й проводити <em>спостереження</em>, <em>досліди</em> та <em>лабораторні роботи</em> — це не додаткове навантаження, а сама суть того, як працює фізика.</p>
+  </section>
+
+  <section id="core">
+    <span class="num">04</span>
+    <h2>Чому саме фізика є основною серед природничих наук</h2>
+    <p><strong>По-перше</strong>, фізика вивчає найбільш загальні закономірності, які визначають структуру та поведінку найрізноманітніших об'єктів — від гігантських зір до крихітних елементарних частинок, із яких складаються атоми.</p>
+    <p><strong>По-друге</strong>, закони природи є основою будь-якої природничої науки. Наприклад, в астрономії закони природи пояснюють причини світіння та будову зір. У хімії саме фізика пояснює напрямок перебігу хімічних реакцій. А найбільше фізичні дослідження вплинули на розвиток техніки: лікарі, будівельники, енергетики, машинобудівники користуються пристроями й технологіями, створення яких стало можливим завдяки знанню законів фізики.</p>
+    <p><strong>По-третє</strong>, фізика дала іншим наукам не лише знання, а й <em>інструменти</em>: мікроскоп і телескоп, рентген і ультразвук, комп'ютер і супутник — усе це фізичні прилади, без яких сучасна біологія, медицина чи географія не змогли б розвиватися так швидко.</p>
+    <div class="box aside">
+      <h4>Цікаво знати</h4>
+      <p>Засновником фізики вважають давньогрецького філософа <strong>Аристотеля</strong> (384–322 рр. до н. е.). Працю, у якій він систематизував природничі знання свого часу, вчений назвав «Фізика» — від грецького слова, що означає «природа».</p>
+    </div>
+  </section>
+
+  <section id="def">
+    <span class="num">05</span>
+    <h2>Означення фізики</h2>
+    <p>Успіху фізики як науки сприяло створення своєрідної мови — мови фізики, яку однаково розуміють у різних куточках планети.</p>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Фізика</strong> — це природнича наука, яка вивчає найзагальніші закономірності явищ природи, властивості та будову матерії, закони її руху.</p>
+    </div>
+    <p><em>Матерія</em> — це все, що існує у Всесвіті: від атома до найдальшої зорі. Простіше кажучи, фізика шукає відповідь на запитання «як?» і «чому?» щодо будь-чого матеріального навколо нас. Фізика вважає, що матерія існує у двох формах — як <strong>речовина</strong> (з неї складаються фізичні тіла: камінь, вода, повітря) і як <strong>поле</strong> (наприклад, магнітне поле навколо магніту чи світлове поле навколо лампи). Детальніше про це ви дізнаєтеся в наступних параграфах.</p>
+    <div class="box aside">
+      <h4>Дізнайтеся більше</h4>
+      <p>Мова фізики — це не лише слова, а й точні позначення. Кожна фізична величина (довжина, час, маса) має свою одиницю вимірювання і позначення, однакові для науковців усього світу. Саме тому результати досліду, проведеного в Україні, можна перевірити в лабораторії в Японії чи Канаді — мова формул та одиниць спільна для всіх.</p>
+    </div>
+  </section>
+
+  <section id="bodies">
+    <span class="num">06</span>
+    <h2>Фізичні тіла і фізичні явища</h2>
+    <p>Будь-яке фізичне тіло складається з речовини або суміші речовин — заліза, води, пластику, повітря тощо.</p>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Фізичне тіло</strong> — це об'єкт із речовини, який має зовнішню межу. Камінь, дерево, велосипед, крапля води — усе це фізичні тіла.</p>
+    </div>
+    <p>Зміни в природі називають <strong>природними явищами</strong>. Щоб краще зрозуміти складні природні явища, вчені розглядають їх як сукупність простіших <em>фізичних явищ</em> — явищ, які можна описати за допомогою відповідних фізичних законів.</p>
+    <div class="box remember">
+      <h4>Запам'ятайте</h4>
+      <p><strong>Фізичне явище</strong> — це будь-яка зміна, що відбувається з фізичним тілом або речовиною: танення, випаровування, падіння, світіння, електричний розряд тощо.</p>
+    </div>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 280" width="100%" style="max-width:600px; min-width:420px" role="img" aria-labelledby="diagB-title diagB-desc">
+        <title id="diagB-title">Фізичне тіло і фізичне явище — порівняння</title>
+        <desc id="diagB-desc">Ліворуч приклади фізичних тіл: камінь, велосипед, крапля води. Праворуч приклади фізичних явищ: блискавка, танення льоду, схід сонця.</desc>
+        <g font-family="Manrope, sans-serif">
+          <rect x="20" y="20" width="280" height="240" rx="14" fill="var(--accent-soft)"/>
+          <text x="160" y="52" text-anchor="middle" font-weight="800" font-size="16" fill="var(--accent-strong)">Фізичне тіло</text>
+          <text x="160" y="72" text-anchor="middle" font-size="11" fill="var(--ink-soft)">об'єкт із зовнішньою межею</text>
+          <text x="160" y="118" text-anchor="middle" font-size="14" fill="var(--ink)">камінь</text>
+          <text x="160" y="150" text-anchor="middle" font-size="14" fill="var(--ink)">велосипед</text>
+          <text x="160" y="182" text-anchor="middle" font-size="14" fill="var(--ink)">крапля води</text>
+          <text x="160" y="214" text-anchor="middle" font-size="14" fill="var(--ink)">книга</text>
+
+          <rect x="340" y="20" width="280" height="240" rx="14" fill="var(--warn-soft)"/>
+          <text x="480" y="52" text-anchor="middle" font-weight="800" font-size="16" fill="var(--warn)">Фізичне явище</text>
+          <text x="480" y="72" text-anchor="middle" font-size="11" fill="var(--ink-soft)">зміна, що описується законом</text>
+          <text x="480" y="118" text-anchor="middle" font-size="14" fill="var(--ink)">блискавка</text>
+          <text x="480" y="150" text-anchor="middle" font-size="14" fill="var(--ink)">танення льоду</text>
+          <text x="480" y="182" text-anchor="middle" font-size="14" fill="var(--ink)">схід сонця</text>
+          <text x="480" y="214" text-anchor="middle" font-size="14" fill="var(--ink)">замерзання води</text>
+        </g>
+      </svg>
+      <figcaption>Мал. Б. Фізичне тіло — це «що», фізичне явище — це «що з ним відбувається».</figcaption>
+    </figure>
+  </section>
+
+  <section id="types">
+    <span class="num">07</span>
+    <h2>Види фізичних явищ</h2>
+    <p>Щоб зорієнтуватися серед незліченної кількості явищ природи, фізики розподіляють їх на кілька великих груп — залежно від того, яка властивість тіла чи речовини змінюється.</p>
+
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 300" width="100%" style="max-width:600px; min-width:440px" role="img" aria-labelledby="diagT-title diagT-desc">
+        <title id="diagT-title">Види фізичних явищ</title>
+        <desc id="diagT-desc">Шість видів фізичних явищ із прикладами: механічні, теплові, звукові, електричні, магнітні, світлові.</desc>
+        <g font-family="Manrope, sans-serif">
+          <rect x="10" y="10" width="195" height="88" rx="12" fill="var(--accent-soft)"/>
+          <text x="107" y="36" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">Механічні</text>
+          <text x="107" y="58" text-anchor="middle" font-size="12" fill="var(--ink-soft)">рух, падіння</text>
+          <text x="107" y="76" text-anchor="middle" font-size="12" fill="var(--ink)">політ м'яча</text>
+
+          <rect x="222" y="10" width="195" height="88" rx="12" fill="var(--warn-soft)"/>
+          <text x="319" y="36" text-anchor="middle" font-weight="700" font-size="14" fill="var(--warn)">Теплові</text>
+          <text x="319" y="58" text-anchor="middle" font-size="12" fill="var(--ink-soft)">нагрівання, охолодження</text>
+          <text x="319" y="76" text-anchor="middle" font-size="12" fill="var(--ink)">кипіння води</text>
+
+          <rect x="434" y="10" width="195" height="88" rx="12" fill="var(--good-soft)"/>
+          <text x="531" y="36" text-anchor="middle" font-weight="700" font-size="14" fill="var(--good)">Звукові</text>
+          <text x="531" y="58" text-anchor="middle" font-size="12" fill="var(--ink-soft)">коливання, що чуємо</text>
+          <text x="531" y="76" text-anchor="middle" font-size="12" fill="var(--ink)">гуркіт грому</text>
+
+          <rect x="10" y="112" width="195" height="88" rx="12" fill="var(--surface-soft)" stroke="var(--line)"/>
+          <text x="107" y="138" text-anchor="middle" font-weight="700" font-size="14" fill="var(--ink)">Електричні</text>
+          <text x="107" y="160" text-anchor="middle" font-size="12" fill="var(--ink-soft)">рух заряджених частинок</text>
+          <text x="107" y="178" text-anchor="middle" font-size="12" fill="var(--ink)">блискавка</text>
+
+          <rect x="222" y="112" width="195" height="88" rx="12" fill="var(--accent-soft)"/>
+          <text x="319" y="138" text-anchor="middle" font-weight="700" font-size="14" fill="var(--accent-strong)">Магнітні</text>
+          <text x="319" y="160" text-anchor="middle" font-size="12" fill="var(--ink-soft)">притягання й відштовхування</text>
+          <text x="319" y="178" text-anchor="middle" font-size="12" fill="var(--ink)">компас біля магніту</text>
+
+          <rect x="434" y="112" width="195" height="88" rx="12" fill="var(--warn-soft)"/>
+          <text x="531" y="138" text-anchor="middle" font-weight="700" font-size="14" fill="var(--warn)">Світлові</text>
+          <text x="531" y="160" text-anchor="middle" font-size="12" fill="var(--ink-soft)">поширення й відбиття світла</text>
+          <text x="531" y="178" text-anchor="middle" font-size="12" fill="var(--ink)">веселка, тінь</text>
+
+          <text x="320" y="240" text-anchor="middle" font-size="13" fill="var(--ink-soft)">Одне складне явище природи (наприклад, гроза) поєднує</text>
+          <text x="320" y="260" text-anchor="middle" font-size="13" fill="var(--ink-soft)">одразу кілька простих: світлове (блискавка), звукове (грім),</text>
+          <text x="320" y="280" text-anchor="middle" font-size="13" fill="var(--ink-soft)">електричне (розряд) і механічне (рух повітря).</text>
+        </g>
+      </svg>
+      <figcaption>Мал. В. Шість основних видів фізичних явищ, які ви вивчатимете в курсі фізики.</figcaption>
+    </figure>
+
+    <div class="box example">
+      <h4>Приклад міркування</h4>
+      <p>Гроза здається одним суцільним явищем, але фізик розкладе її на простіші: спалах — <em>світлове</em> явище, гуркіт — <em>звукове</em>, електричний розряд між хмарою і землею — <em>електричне</em>, а рух повітряних мас, що її спричиняють, — <em>механічне</em>. Саме так «складні природні явища» зводять до «сукупності фізичних явищ», про яку йшлося вище.</p>
+    </div>
+  </section>
+
+  <section id="practice">
+    <span class="num">08</span>
+    <h2>Приклади для закріплення</h2>
+    <p>Визначте усно: перед вами фізичне тіло чи фізичне явище (а якщо явище — то якого виду)? Тоді відкрийте відповідь.</p>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <span class="expr">Камінь</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне тіло</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Схід сонця</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (світлове)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Велосипед</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне тіло</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Замерзання води</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (теплове)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Блискавка</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (світлове й електричне)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Кипіння води в чайнику</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (теплове)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Політ футбольного м'яча</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (механічне)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Гуркіт грому</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (звукове)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Притягання компаса до магніту</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне явище (магнітне)</div></details>
+      </div>
+      <div class="practice-card">
+        <span class="expr">Сніжинка</span>
+        <details><summary>Відповідь</summary><div class="answer">фізичне тіло</div></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <span class="num">09</span>
+    <h2>Тест самоперевірки</h2>
+    <p>Оберіть правильну відповідь подумки, а тоді відкрийте ключ у кінці розділу.</p>
+    <ol class="quiz">
+      <li><div class="qhead">Що вивчає фізика?</div>
+        <ul><li>а) лише живі організми</li><li>б) найзагальніші закономірності явищ природи, властивості та будову матерії</li><li>в) лише хімічні реакції</li></ul></li>
+      <li><div class="qhead">Кого вважають засновником фізики як науки?</div>
+        <ul><li>а) Ньютона</li><li>б) Архімеда</li><li>в) Аристотеля</li></ul></li>
+      <li><div class="qhead">Що означає слово «фізика» у перекладі з давньогрецької?</div>
+        <ul><li>а) рух</li><li>б) природа</li><li>в) число</li></ul></li>
+      <li><div class="qhead">Яка наука є «материнською» для фізики, хімії, географії, біології й медицини?</div>
+        <ul><li>а) математика</li><li>б) астрономія</li><li>в) природознавство</li></ul></li>
+      <li><div class="qhead">Що таке фізичне тіло?</div>
+        <ul><li>а) будь-яка зміна в природі</li><li>б) об'єкт із речовини, що має зовнішню межу</li><li>в) закон природи</li></ul></li>
+      <li><div class="qhead">Танення льоду — це приклад…</div>
+        <ul><li>а) фізичного тіла</li><li>б) фізичного явища</li><li>в) закону хімії</li></ul></li>
+      <li><div class="qhead">Чому лід у теплій воді завжди тане, а не навпаки?</div>
+        <ul><li>а) це випадковість</li><li>б) так підкоряється законам природи</li><li>в) так вирішили вчені</li></ul></li>
+      <li><div class="qhead">Складні природні явища вчені розглядають як…</div>
+        <ul><li>а) окрему речовину</li><li>б) сукупність простіших фізичних явищ</li><li>в) один фізичний закон</li></ul></li>
+      <li><div class="qhead">Що йде першим кроком наукового методу пізнання природи?</div>
+        <ul><li>а) закон</li><li>б) спостереження</li><li>в) експеримент</li></ul></li>
+      <li><div class="qhead">Коли гіпотезу визнають законом природи?</div>
+        <ul><li>а) одразу після одного вдалого досліду</li><li>б) коли результат багаторазово підтверджується експериментом без винятків</li><li>в) коли так вирішує один науковець</li></ul></li>
+      <li><div class="qhead">До якого виду явищ належить кипіння води?</div>
+        <ul><li>а) механічне</li><li>б) теплове</li><li>в) магнітне</li></ul></li>
+      <li><div class="qhead">Гуркіт грому — приклад явища якого виду?</div>
+        <ul><li>а) звукового</li><li>б) магнітного</li><li>в) механічного</li></ul></li>
+    </ol>
+    <details style="margin-top:18px;">
+      <summary>Показати ключ відповідей</summary>
+      <div class="answer" style="max-width:520px;">1 — б; 2 — в; 3 — б; 4 — в; 5 — б; 6 — б; 7 — б; 8 — б; 9 — б; 10 — б; 11 — б; 12 — а</div>
+    </details>
+  </section>
+
+  <section id="work">
+    <span class="num">10</span>
+    <h2>Самостійна робота</h2>
+    <p>Три рівноцінні варіанти. Учитель обирає один варіант для кожного учня або групи.</p>
+    <div class="variants">
+      <div class="variant">
+        <h4>Варіант 1</h4>
+        <ol>
+          <li>Визначте, що це — фізичне тіло чи фізичне явище: сніг, гроза, книга, схід сонця.</li>
+          <li>Сформулюйте своїми словами означення фізики (не заглядаючи в підручник).</li>
+          <li>Поясніть, чому кубик льоду в теплій воді завжди тане, а не навпаки.</li>
+          <li>Визначте вид явища (механічне, теплове, звукове, електричне, магнітне чи світлове): а) політ повітряної кульки; б) нагрівання чайника.</li>
+          <li>Опишіть своїми словами чотири кроки наукового методу — від спостереження до закону.</li>
+          <li>Наведіть власні приклади: два фізичні тіла і два фізичні явища (не з підручника).</li>
+          <li>Як називалася праця Аристотеля, від якої походить назва науки «фізика»?</li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 2</h4>
+        <ol>
+          <li>Визначте, що це — фізичне тіло чи фізичне явище: дощ, стілець, веселка, м'яч.</li>
+          <li>Поясніть, чому спалах блискавки ми бачимо раніше, ніж чуємо гуркіт грому.</li>
+          <li>Чому фізику вважають основною серед природничих наук? Наведіть одну причину з підручника.</li>
+          <li>Визначте вид явища (механічне, теплове, звукове, електричне, магнітне чи світлове): а) відбиття у дзеркалі; б) притягання цвяхів до магніту.</li>
+          <li>Наведіть приклад із власного досвіду, коли ви спостерігали явище кілька разів і помітили закономірність (свою «гіпотезу»).</li>
+          <li>Наведіть власні приклади: два фізичні тіла і два фізичні явища (не з підручника).</li>
+          <li>Як називається наука, з якої з часом виокремилися фізика, хімія, географія, біологія та медицина?</li>
+        </ol>
+      </div>
+      <div class="variant">
+        <h4>Варіант 3</h4>
+        <ol>
+          <li>Визначте, що це — фізичне тіло чи фізичне явище: хмара, замерзання ставка, олівець, вітер.</li>
+          <li>Поясніть, чому м'яч, підкинутий вгору, завжди падає вниз, а не залишається в повітрі.</li>
+          <li>Що таке матерія? Наведіть означення з підручника.</li>
+          <li>Визначте вид явища (механічне, теплове, звукове, електричне, магнітне чи світлове): а) спів пташки; б) рух автомобіля.</li>
+          <li>Поясніть, чому науковці не визнають закон природи після одного-двох вдалих дослідів.</li>
+          <li>Наведіть власні приклади: два фізичні тіла і два фізичні явища (не з підручника).</li>
+          <li>Хто і коли вважається засновником фізики як науки?</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="end">
+    <span>За підручником: Бар'яхтар В. Г. та ін., «Фізика. 7 клас» (2024), § 1, с. 6–8.</span>
+    <span>Розділ 1 · Методи пізнання природи. Фізика як природнича наука</span>
+  </footer>
+
+</div>
+</body>
+</html>
