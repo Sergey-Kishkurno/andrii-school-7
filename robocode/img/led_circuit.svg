@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" width="760" height="260" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="758" height="258" rx="14" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+
+  <!-- Напрям струму -->
+  <line x1="230" y1="52" x2="640" y2="52" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arr)"/>
+  <text x="428" y="38" text-anchor="middle" font-size="15" font-weight="700" fill="#b45309">напрям струму</text>
+
+  <!-- Мікроконтролер -->
+  <rect x="30" y="70" width="150" height="150" rx="10" fill="#f1f5f9" stroke="#1f2937" stroke-width="3"/>
+  <text x="95" y="135" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Arduino</text>
+  <text x="95" y="157" text-anchor="middle" font-size="13" fill="#6b7280">мікроконтролер</text>
+  <text x="200" y="130" text-anchor="middle" font-size="15" font-weight="700" fill="#2563eb">D13</text>
+
+  <g stroke="#1f2937" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- провід D13 → R1 -->
+    <line x1="180" y1="140" x2="270" y2="140"/>
+    <!-- R1 -->
+    <rect x="270" y="125" width="80" height="30" rx="2"/>
+    <!-- R1 → LED -->
+    <line x1="350" y1="140" x2="440" y2="140"/>
+    <!-- LED1 -->
+    <polygon points="440,116 440,164 480,140"/>
+    <line x1="480" y1="116" x2="480" y2="164"/>
+    <!-- LED → GND -->
+    <polyline points="480,140 640,140 640,172"/>
+    <!-- GND -->
+    <line x1="614" y1="172" x2="666" y2="172"/>
+    <line x1="624" y1="182" x2="656" y2="182"/>
+    <line x1="634" y1="192" x2="646" y2="192"/>
+  </g>
+  <circle cx="180" cy="140" r="5" fill="#2563eb"/>
+
+  <!-- Промені світлодіода -->
+  <g stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="464" y1="110" x2="480" y2="94"/><polyline points="471,94 480,94 480,103"/>
+    <line x1="478" y1="116" x2="494" y2="100"/><polyline points="485,100 494,100 494,109"/>
+  </g>
+
+  <!-- Підписи -->
+  <text x="310" y="114" text-anchor="middle" font-size="16" font-weight="700" fill="#2563eb">R1</text>
+  <text x="310" y="178" text-anchor="middle" font-size="15" fill="#2563eb">220 Ом</text>
+  <text x="460" y="190" text-anchor="middle" font-size="16" font-weight="700" fill="#2563eb">LED1</text>
+  <text x="420" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#16a34a">A</text>
+  <text x="500" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#dc2626">K</text>
+  <text x="640" y="216" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">GND</text>
+  <text x="225" y="236" text-anchor="middle" font-size="13" fill="#6b7280">HIGH = +5 V</text>
+</svg>

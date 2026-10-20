@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" width="720" height="220" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect x="1" y="1" width="718" height="218" rx="14" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+
+  <!-- Ліва частина -->
+  <rect x="30" y="40" width="140" height="110" rx="10" fill="#f1f5f9" stroke="#1f2937" stroke-width="3"/>
+  <text x="100" y="92" text-anchor="middle" font-size="17" font-weight="700" fill="#111827">Arduino</text>
+  <text x="192" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">D5</text>
+  <line x1="170" y1="95" x2="215" y2="95" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="215,95 230,78 340,78 340,112 230,112" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="283" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">MOTOR_PWM</text>
+
+  <!-- Права частина -->
+  <polygon points="380,78 490,78 505,95 490,112 380,112" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="437" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">MOTOR_PWM</text>
+  <line x1="505" y1="95" x2="550" y2="95" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+  <rect x="550" y="40" width="140" height="110" rx="10" fill="#f1f5f9" stroke="#1f2937" stroke-width="3"/>
+  <text x="620" y="84" text-anchor="middle" font-size="17" font-weight="700" fill="#111827">Драйвер</text>
+  <text x="620" y="106" text-anchor="middle" font-size="17" font-weight="700" fill="#111827">мотора</text>
+  <text x="528" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">IN1</text>
+
+  <!-- Невидимий зв'язок -->
+  <path d="M 283,118 Q 360,175 437,118" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="7 6"/>
+  <text x="360" y="196" text-anchor="middle" font-size="15" font-weight="700" fill="#16a34a">однакова назва = з'єднані проводом</text>
+</svg>
